@@ -7,6 +7,7 @@ import com.example.demo.dto.BatteryDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -41,5 +42,11 @@ public class Battery {
                 .append(this.wattCapacity, that.getWattCapacity())
                 .append(this.name, that.name)
                 .isEquals();
+    }
+
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder()
+                .append(this.postCode).toHashCode();
     }
 }

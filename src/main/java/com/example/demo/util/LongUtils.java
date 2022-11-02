@@ -6,6 +6,7 @@ package com.example.demo.util;
 import java.util.Objects;
 
 public class LongUtils {
+    private LongUtils(){}
     public static long getOrDefault(Long number, long defaultValue){
         return Objects.isNull(number)? defaultValue : number;
     }

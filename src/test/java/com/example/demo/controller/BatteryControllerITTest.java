@@ -6,7 +6,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.BatteryDTO;
 import com.example.demo.entity.Battery;
 import com.example.demo.repository.BatteryRepository;
-import com.example.demo.request.BatteriesRequest;
+import com.example.demo.dto.request.BatteriesRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class BatteryControllerITTest {
+class BatteryControllerITTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,18 +46,18 @@ public class BatteryControllerITTest {
     private final BatteryDTO inputBatteryPostCode9 = new BatteryDTO( 9L,"Blk 145 Lorong 2 Toa Payoh", 200.0);
 
     @Test
-    public void givenEmptyBody_whenUpsertBatteries_thenBadRequestStatusReturned() throws Exception {
+    void givenEmptyBody_whenUpsertBatteries_thenBadRequestStatusReturned() throws Exception {
         this.mockMvc.perform(post("/v1/batteries"))
                 .andExpect(status().isBadRequest());
     }
     @Test
-    public void givenEmptyBatteryBody_whenUpsertBatteries_thenBadRequestStatusReturned() throws Exception {
+    void givenEmptyBatteryBody_whenUpsertBatteries_thenBadRequestStatusReturned() throws Exception {
         performPostUpsertBatteriesRequest()
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void givenValidBatteryPostalCode1_whenUpsertBatteries_thenUpdatedRecordInDBAndReturnNoContentStatus() throws Exception {
+    void givenValidBatteryPostalCode1_whenUpsertBatteries_thenUpdatedRecordInDBAndReturnNoContentStatus() throws Exception {
         performPostUpsertBatteriesRequest(inputBatteryPostCode1)
                 .andExpect(status().isNoContent());
 
@@ -67,7 +67,7 @@ public class BatteryControllerITTest {
     }
 
     @Test
-    public void given1ValidAnd3InvalidBattyObject_whenUpsertBatteries_thenUpsertOnlyValidOne() throws Exception {
+    void given1ValidAnd3InvalidBattyObject_whenUpsertBatteries_thenUpsertOnlyValidOne() throws Exception {
         BatteryDTO invalidBatteryDTOWithoutPostCode = new BatteryDTO(null, inputBatteryPostCode5.getName(), inputBatteryPostCode5.getWattCapacity());
         BatteryDTO invalidBatteryDTOWithoutName = new BatteryDTO(inputBatteryPostCode5.getPostCode(), null, inputBatteryPostCode5.getWattCapacity());
         BatteryDTO invalidBatteryDTOWithoutWattCapacity = new BatteryDTO(inputBatteryPostCode9.getPostCode(), inputBatteryPostCode9.getName(), null);
@@ -85,7 +85,7 @@ public class BatteryControllerITTest {
     }
 
     @Test
-    public void givenSamePostCodeDifferentAttributes_whenUpsertBatteries_thenOnlyLatterIsUpdatedInDB() throws Exception {
+    void givenSamePostCodeDifferentAttributes_whenUpsertBatteries_thenOnlyLatterIsUpdatedInDB() throws Exception {
         BatteryDTO inputBatteryPostCode1Updated = new BatteryDTO( 1L,"battery2", 110.0);
         performPostUpsertBatteriesRequest(inputBatteryPostCode1, inputBatteryPostCode1Updated)
                 .andExpect(status().isNoContent())
@@ -98,7 +98,7 @@ public class BatteryControllerITTest {
 
 
     @Test
-    public void givenUpsertBatteryPostCode1AndPostCode5AndPostCode11_whenGetBatteriesByPostCodeRange4To5_thenOnlyPostCode5Returned() throws Exception {
+    void givenUpsertBatteryPostCode1AndPostCode5AndPostCode11_whenGetBatteriesByPostCodeRange4To5_thenOnlyPostCode5Returned() throws Exception {
         long postCodeFrom=4L;
         long postCodeTo=6L;
 
@@ -112,7 +112,7 @@ public class BatteryControllerITTest {
 
     }
     @Test
-    public void givenUpsertBatteryPostCode1AndPostCode5AndPostCode11_whenGetBatteriesByPostCodeRangeFrom0_thenAllReturnedSortedByName() throws Exception {
+    void givenUpsertBatteryPostCode1AndPostCode5AndPostCode11_whenGetBatteriesByPostCodeRangeFrom0_thenAllReturnedSortedByName() throws Exception {
         long postCodeFrom=0L;
 
         performPostUpsertBatteriesRequest(inputBatteryPostCode1, inputBatteryPostCode5, inputBatteryPostCode9);
@@ -129,7 +129,7 @@ public class BatteryControllerITTest {
 
     }
     @Test
-    public void givenUpsertBatteryPostCode1AndPostCode5AndPostCode11_whenGetBatteriesByPostCodeRangeTo0_thenNoneReturned() throws Exception {
+    void givenUpsertBatteryPostCode1AndPostCode5AndPostCode11_whenGetBatteriesByPostCodeRangeTo0_thenNoneReturned() throws Exception {
         long postCodeTo=0L;
 
         performPostUpsertBatteriesRequest(inputBatteryPostCode1, inputBatteryPostCode5, inputBatteryPostCode9);

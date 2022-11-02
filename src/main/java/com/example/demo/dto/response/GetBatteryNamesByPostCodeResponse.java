@@ -1,4 +1,4 @@
-package com.example.demo.response;
+package com.example.demo.dto.response;
 /*
  * @author Daniel
  */
@@ -16,7 +16,7 @@ public class GetBatteryNamesByPostCodeResponse {
     private final long totalWattCapacity;
     private final double avgWattCapacity;
     public GetBatteryNamesByPostCodeResponse(List<BatteryDTO> batteries){
-        this.batteryNames = batteries.stream().map(batteryDTO ->  batteryDTO.getName()).collect(Collectors.toList());
+        this.batteryNames = batteries.stream().map(BatteryDTO::getName).collect(Collectors.toList());
         LongSummaryStatistics statistic = batteries.stream().map(BatteryDTO::getWattCapacity)
                 .mapToLong(Double::longValue)
                 .summaryStatistics();

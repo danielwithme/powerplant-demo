@@ -4,8 +4,8 @@ package com.example.demo.controller;
  */
 
 import com.example.demo.dto.BatteryDTO;
-import com.example.demo.request.BatteriesRequest;
-import com.example.demo.response.GetBatteryNamesByPostCodeResponse;
+import com.example.demo.dto.request.BatteriesRequest;
+import com.example.demo.dto.response.GetBatteryNamesByPostCodeResponse;
 import com.example.demo.service.BatteryService;
 import com.example.demo.util.LongUtils;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class BatteryController {
     private BatteryService batteryService;
 
     @PostMapping()
-    public @ResponseBody ResponseEntity upsertBatteries(@RequestBody BatteriesRequest request) {
+    public @ResponseBody ResponseEntity<String> upsertBatteries(@RequestBody BatteriesRequest request) {
         if (request.getBatteries().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Empty body, please input the valid battery list");
         }
